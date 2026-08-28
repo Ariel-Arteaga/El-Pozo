@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Pozo — Gary Ariel Arteaga Gabriel</title>
+<style>
+  :root{
+    --tierra:#1c1512;      /* fondo trinchera / pasado */
+    --tierra2:#2a201a;
+    --arena:#e8dcc6;       /* texto claro sobre fondo oscuro */
+    --oxido:#c2532b;       /* acento del relato / guerra */
+    --dato:#35c9c1;        /* acento tecnológico / presente */
+    --dato-osc:#1f7c76;
+    --papel:#faf6ee;       /* fondo secciones de lectura */
+    --tinta:#241a12;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Georgia',serif;background:var(--papel);color:var(--tinta);line-height:1.65}
+  h1,h2,h3{font-family:'Trebuchet MS',sans-serif;letter-spacing:.3px}
+
+  /* HERO */
+  header{
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(194,83,43,.35), transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(53,201,193,.25), transparent 55%),
+      linear-gradient(160deg,var(--tierra),var(--tierra2));
+    color:var(--arena);padding:5rem 1.5rem 3.5rem;text-align:center;border-bottom:6px solid var(--oxido);
+  }
+  header .eyebrow{color:var(--dato);letter-spacing:3px;text-transform:uppercase;font-size:.8rem;font-family:sans-serif}
+  header h1{font-size:2.4rem;margin:.6rem 0;max-width:820px;margin-left:auto;margin-right:auto}
+  header .split{font-weight:bold}
+  header .split .a{color:var(--oxido)}
+  header .split .b{color:var(--dato)}
+  header p{margin:.3rem 0;opacity:.9;font-family:sans-serif;font-size:.95rem}
+  header .autor{margin-top:1.4rem;font-size:1.1rem;font-family:sans-serif}
+  header .autor strong{color:var(--dato)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:999;background:var(--tinta);display:flex;flex-wrap:wrap;
+      justify-content:center;gap:.3rem;padding:.7rem;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+  nav a{color:var(--arena);text-decoration:none;font-family:sans-serif;font-size:.82rem;font-weight:600;
+        padding:.45rem .8rem;border-radius:20px;transition:.25s}
+  nav a:hover{background:var(--oxido);color:#fff}
+
+  .container{max-width:960px;margin:0 auto;padding:0 1.3rem}
+  section{padding:3.2rem 0;border-bottom:1px solid #e4dac4}
+  section h2{color:var(--oxido);font-size:1.7rem;margin-bottom:.3rem}
+  section h2 .num{color:var(--dato);font-size:1rem;font-family:sans-serif;display:block;letter-spacing:2px}
+  .lead{font-style:italic;color:#6b5c46;max-width:640px}
+
+  /* actores / listas */
+  .actor{background:#fff;border-left:4px solid var(--oxido);padding:.9rem 1.2rem;margin:.7rem 0;border-radius:0 6px 6px 0;font-family:sans-serif;font-size:.93rem}
+  .actor b{color:var(--tierra)}
+
+  /* diagrama entrada/proceso/salida — diagrama real con conectores y flechas */
+  .sys-title{font-family:sans-serif;font-weight:bold;margin-top:1.6rem;color:var(--tinta)}
+  .diagram{border:2px solid #e4dac4;border-radius:12px;padding:1.4rem 1.2rem 1.6rem;margin:.9rem 0 1.8rem;background:#fffdf9}
+  .diagram.pasado{border-color:var(--oxido)}
+  .diagram.presente{border-color:var(--dato)}
+  .d-title{font-family:sans-serif;font-size:.72rem;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;
+    display:inline-block;padding:.25rem .8rem;border-radius:20px;margin-bottom:1.2rem;color:#fff}
+  .diagram.pasado .d-title{background:var(--oxido)}
+  .diagram.presente .d-title{background:var(--dato-osc)}
+  .d-flow{display:flex;align-items:stretch;gap:0}
+  .d-node{flex:1;background:#fff;border-radius:10px;padding:1rem .9rem;font-family:sans-serif;font-size:.83rem;
+    box-shadow:0 3px 8px rgba(0,0,0,.09);text-align:center}
+  .d-icon{width:2.6rem;height:2.6rem;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;margin:0 auto .6rem;color:#fff}
+  .diagram.pasado .d-icon{background:var(--oxido)}
+  .diagram.presente .d-icon{background:var(--dato-osc)}
+  .d-node .d-label{display:block;font-size:.68rem;font-weight:bold;letter-spacing:1px;color:#999;margin-bottom:.4rem}
+  .d-node p{margin:0;color:var(--tinta)}
+  .d-connector{flex:0 0 34px;position:relative;align-self:center;height:4px;margin:0 -2px}
+  .diagram.pasado .d-connector{background:var(--oxido)}
+  .diagram.presente .d-connector{background:var(--dato-osc)}
+  .d-connector::after{content:'';position:absolute;right:-2px;top:50%;transform:translateY(-50%);
+    border-left:10px solid;border-top:7px solid transparent;border-bottom:7px solid transparent}
+  .diagram.pasado .d-connector::after{border-left-color:var(--oxido)}
+  .diagram.presente .d-connector::after{border-left-color:var(--dato-osc)}
+  @media(max-width:640px){
+    .d-flow{flex-direction:column;gap:1.6rem}
+    .d-connector{width:4px;height:26px;flex:0 0 26px;align-self:center;margin:0}
+    .d-connector::after{right:50%;top:auto;bottom:-2px;transform:translateX(50%) rotate(90deg)}
+  }
+
+  /* camino del heroe */
+  .heroe{counter-reset:h}
+  .heroe li{counter-increment:h;list-style:none;position:relative;padding:.6rem 0 .6rem 3rem;font-family:sans-serif;font-size:.93rem;border-bottom:1px dashed #ddd}
+  .heroe li::before{content:counter(h);position:absolute;left:0;top:.5rem;width:2rem;height:2rem;border-radius:50%;
+    background:var(--tierra);color:var(--dato);font-weight:bold;display:flex;align-items:center;justify-content:center;font-family:sans-serif}
+
+  /* storyboard */
+  .story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:1rem}
+  .story-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+  .ph{aspect-ratio:16/9;background:repeating-linear-gradient(45deg,#eee,#eee 10px,#f6f6f6 10px,#f6f6f6 20px);
+      display:flex;align-items:center;justify-content:center;color:#999;font-family:sans-serif;font-size:.75rem;text-align:center;padding:.5rem}
+  .story-card .info{padding:.7rem .9rem;font-family:sans-serif}
+  .story-card .info b{font-size:.85rem;color:var(--tierra)}
+  .story-card .info span{display:block;font-size:.72rem;color:#888;margin-top:.2rem}
+  .story-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+
+  /* botón de video llamativo */
+  .video-btn-wrap{text-align:center;padding:2rem 0}
+  .video-btn{display:inline-flex;align-items:center;gap:.6rem;background:#FF0000;color:#fff;
+    font-family:sans-serif;font-weight:bold;font-size:1.15rem;padding:1rem 2.2rem;border-radius:50px;
+    text-decoration:none;box-shadow:0 6px 18px rgba(255,0,0,.4);transition:transform .2s,box-shadow .2s}
+  .video-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 10px 24px rgba(255,0,0,.55)}
+
+  /* video */
+  .video-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;background:#111}
+  .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+  /* IA evidencia — formato Antes / Después, fácil de seguir */
+  .ia-card{background:#fff;border-radius:10px;padding:1.3rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.09);font-family:sans-serif}
+  .ia-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.2rem}
+  .ia-num{width:1.9rem;height:1.9rem;border-radius:50%;background:var(--tierra);color:var(--dato);font-weight:bold;
+    display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+  .ia-card h3{margin:0;color:var(--tinta);font-size:1rem}
+  .tag{display:inline-block;background:#f1e9d8;color:#7a6a45;font-size:.68rem;font-weight:bold;padding:.2rem .6rem;border-radius:12px;margin-left:auto}
+  .ia-pipe{display:grid;grid-template-columns:1fr auto 1fr;gap:.9rem;align-items:stretch;margin-top:.9rem}
+  .ia-step{border-radius:8px;padding:1rem;font-size:.85rem}
+  .ia-step.antes{background:#fdf1ec;border:1px solid #f0c6b4}
+  .ia-step.despues{background:#eafbf9;border:1px solid #b3ece6}
+  .step-label{display:block;font-weight:bold;margin-bottom:.6rem;font-size:.72rem;text-transform:uppercase;letter-spacing:1px}
+  .ia-step.antes .step-label{color:var(--oxido)}
+  .ia-step.despues .step-label{color:var(--dato-osc)}
+  .ia-step p{margin:.4rem 0 0}
+  .ia-arrow{align-self:center;font-size:1.4rem;color:#bbb;font-weight:bold}
+  .prompt{background:#1a1a1a;color:#7CFC9E;font-family:monospace;font-size:.74rem;padding:.6rem .7rem;border-radius:6px;display:block;margin:0 0 .5rem;white-space:pre-wrap;word-break:break-word}
+  @media(max-width:640px){.ia-pipe{grid-template-columns:1fr}.ia-arrow{transform:rotate(90deg)}}
+
+  footer{background:var(--tierra);color:var(--arena);text-align:center;padding:2.5rem 1.5rem;font-family:sans-serif}
+  footer .autor{color:var(--dato);font-weight:bold}
+  footer p{font-size:.85rem;opacity:.85;max-width:700px;margin:.5rem auto}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Taller de Proyectos · Mención Ingeniería de Sistemas · UMSA</div>
+  <h1 class="split">El Pozo: <span class="a">De la Sed de Guerra</span> a <span class="b">la Certeza de los Datos</span></h1>
+  <p>Adaptación audiovisual del relato de Augusto Céspedes</p>
+  <div class="autor">Por <strong>Gary Ariel Arteaga Gabriel</strong></div>
+</header>
+
+<nav>
+  <a href="#relato">El Relato</a>
+  <a href="#adaptacion">Adaptación</a>
+  <a href="#sistemas">Ing. de Sistemas</a>
+  <a href="#heroe">Camino del Héroe</a>
+  <a href="#storyboard">Storyboard</a>
+  <a href="#video">Video</a>
+  <a href="#ia">Evidencia IA</a>
+  <a href="#conclusiones">Conclusiones</a>
+  <a href="#creditos">Créditos</a>
+</nav>
+
+<div class="container">
+
+  <section id="relato">
+    <h2><span class="num">01 — Origen</span>El Relato Original</h2>
+    <p><strong>"El Pozo"</strong>, de Augusto Céspedes (parte de <em>Sangre de Mestizos</em>), está ambientado en la Guerra del Chaco (1932–1935). A través del diario del suboficial <strong>Miguel Navajas</strong>, narra cómo un grupo de zapadores bolivianos excava desesperadamente un pozo de más de 50 metros buscando agua, hasta que la excavación termina en tragedia: la ironía de una guerra donde el enemigo más letal era la sed.</p>
+  </section>
+
+  <section id="adaptacion">
+    <h2><span class="num">02 — Reinterpretación</span>Adaptación al Escenario Actual</h2>
+    <p>Se conservó íntegramente el contexto histórico del relato: no se introduce tecnología dentro de 1933. Lo que cambia es el <strong>punto de vista narrativo</strong>, llevado a una experiencia inmersiva en <strong>primera persona (POV)</strong> y fragmentado en <strong>micro-relatos de máximo 4 segundos</strong>, para que cada corte funcione como una entrada de diario leída en el momento en que ocurre, sin perder la esencia cruda y fatalista de Céspedes.</p>
+    <p>La reinterpretación tecnológica se trabaja como una <strong>segunda capa narrativa independiente</strong>, tal como exige el desafío: no se altera el relato original, se le añade un análisis posterior desde la Ingeniería de Sistemas. El eje del problema —una decisión de alto riesgo tomada solo por obediencia jerárquica, sin ningún mecanismo de verificación— se traduce hoy a un <strong>sistema de apoyo a la decisión (dashboard)</strong> compuesto por tres piezas concretas:</p>
+    <div class="actor"><b>1. Captura de datos</b> — sensores de humedad de suelo y estudios satelitales de la zona a explorar.</div>
+    <div class="actor"><b>2. Modelo de predicción</b> — cruce de esos datos para estimar la <em>probabilidad real</em> de encontrar agua antes de excavar.</div>
+    <div class="actor"><b>3. Alerta temprana</b> — el sistema recomienda excavar o no excavar según la evidencia, sustituyendo la orden jerárquica ciega por una decisión informada.</div>
+    <p>El proyecto no busca "salvar" a los personajes del relato: busca mostrar que el mismo tipo de problema —invertir vidas y recursos sin evidencia— hoy tiene una solución de ingeniería posible y verificable.</p>
+  </section>
+
+  <section id="sistemas">
+    <h2><span class="num">03 — Mención</span>Ingeniería de Sistemas</h2>
+
+    <h3 class="sys-title">Actores del sistema</h3>
+    <div class="actor"><b>Sof. Miguel Navajas</b> — ejecuta la orden y toma decisiones operativas en el terreno.</div>
+    <div class="actor"><b>Comandante / Capitán</b> — ordena continuar sin evidencia técnica, solo por presión.</div>
+    <div class="actor"><b>Teniente</b> — transmite la orden desde el mando superior hacia la tropa.</div>
+    <div class="actor"><b>Zapadores</b> (Pedraza, Irusta, Chacón, Cosñi) — excavan y reportan hallazgos.</div>
+    <div class="actor"><b>Chofer aguatero</b> — única fuente externa de agua; simboliza el recurso escaso.</div>
+    <div class="actor"><b>Soldados paraguayos</b> — amenaza externa sobre el recurso en disputa.</div>
+    <div class="actor"><b>Ing. Ariel</b> (escenario actual) — analista de sistemas que interpreta datos y comunica la mejora.</div>
+    <div class="actor"><b>Técnicos de campo</b> (escenario actual) — recolectan datos con sensores y drones.</div>
+
+    <h3 class="sys-title">Diagrama del proceso</h3>
+    <p class="lead">Mismo esquema Entrada → Proceso → Salida aplicado a los dos escenarios, para comparar directamente qué cambia.</p>
+
+    <div class="diagram pasado">
+      <span class="d-title">Sistema original · 1933</span>
+      <div class="d-flow">
+        <div class="d-node">
+          <div class="d-icon">📥</div>
+          <span class="d-label">Entrada</span>
+          <p>Escasez de agua + orden militar sin estudio previo del terreno</p>
+        </div>
+        <div class="d-connector"></div>
+        <div class="d-node">
+          <div class="d-icon">⚙️</div>
+          <span class="d-label">Proceso</span>
+          <p>Excavación manual sin verificación; se decide por jerarquía, no por evidencia</p>
+        </div>
+        <div class="d-connector"></div>
+        <div class="d-node">
+          <div class="d-icon">📤</div>
+          <span class="d-label">Salida</span>
+          <p>Pozo seco de 50 m, más de una decena de bajas, cero agua</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram presente">
+      <span class="d-title">Sistema propuesto · actual</span>
+      <div class="d-flow">
+        <div class="d-node">
+          <div class="d-icon">📥</div>
+          <span class="d-label">Entrada</span>
+          <p>Sensores de humedad de suelo + estudios satelitales de la zona</p>
+        </div>
+        <div class="d-connector"></div>
+        <div class="d-node">
+          <div class="d-icon">⚙️</div>
+          <span class="d-label">Proceso</span>
+          <p>Modelo de predicción cruza los datos y calcula la probabilidad de encontrar agua</p>
+        </div>
+        <div class="d-connector"></div>
+        <div class="d-node">
+          <div class="d-icon">📤</div>
+          <span class="d-label">Salida</span>
+          <p>Alerta temprana e informada: excavar o no excavar, con evidencia real</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sys-title">Problema identificado</h3>
+    <p>El sistema carecía de retroalimentación basada en evidencia: se invertían vidas y tiempo apoyándose solo en la autoridad jerárquica, sin puntos de control que permitieran detener el proceso a tiempo.</p>
+
+    <h3 class="sys-title">Propuesta de mejora</h3>
+    <p>Implementar un <strong>dashboard de apoyo a la decisión</strong> que integre sensores de humedad y datos satelitales para estimar la probabilidad de encontrar agua antes de excavar, generando alertas tempranas.</p>
+  </section>
+
+  <section id="heroe">
+    <h2><span class="num">04 — Narrativa</span>Camino del Héroe Adaptado</h2>
+    <ol class="heroe">
+      <li><b>Mundo ordinario:</b> soldados en campaña, con sed aún controlable.</li>
+      <li><b>Llamado:</b> se acaba el agua; llega la orden de buscar pozos.</li>
+      <li><b>Duda:</b> los soldados dudan de que exista agua en la zona.</li>
+      <li><b>Mentor / ayuda:</b> el mando ordena y orienta el inicio de la excavación.</li>
+      <li><b>Cruce del umbral:</b> los zapadores comienzan a cavar.</li>
+      <li><b>Pruebas:</b> meses de excavación, calor extremo, agotamiento.</li>
+      <li><b>Gran desafío:</b> ataque paraguayo durante la excavación.</li>
+      <li><b>Recompensa (irónica):</b> ausencia total de agua.</li>
+      <li><b>Regreso:</b> entierran a los caídos en el mismo pozo que cavaron.</li>
+      <li><b>Transformación:</b> el aprendizaje sobre el costo de decidir sin evidencia.</li>
+    </ol>
+  </section>
+
+  <section id="storyboard">
+    <h2><span class="num">05 — Visual</span>Storyboard (Intro + 11 escenas + créditos)</h2>
+    
+    <div class="story-grid">
+      <div class="story-card"><img src="img/img1.jpeg" alt="Escena 1"><div class="info"><b>1. Mundo ordinario (0:05–0:15)</b><span>Campamento militar, la cañada se seca</span></div></div>
+      <div class="story-card"><img src="img/img3.jpeg" alt="Escena 2"><div class="info"><b>2. Duda + Orden (0:15–0:25)</b><span>¿Habrá agua? Deben buscar pozos</span></div></div>
+      <div class="story-card"><img src="img/img2.jpeg" alt="Escena 3"><div class="info"><b>3. Cruce del umbral (0:25–0:35)</b><span>Navajas ordena excavar</span></div></div>
+      <div class="story-card"><img src="img/img5.jpeg" alt="Escena 4"><div class="info"><b>4. Pruebas (0:35–0:45)</b><span>Tierra seca, fechas del diario</span></div></div>
+      <div class="story-card"><img src="img/img7.jpeg" alt="Escena 5"><div class="info"><b>5. Gran desafío (0:45–0:55)</b><span>Ataque paraguayo</span></div></div>
+      <div class="story-card"><img src="img/img8.jpeg" alt="Escena 6"><div class="info"><b>6. Regreso (0:55–1:00)</b><span>Entierran a los caídos en el pozo</span></div></div>
+      <div class="story-card"><img src="img/img9.jpeg" alt="Escena 7"><div class="info"><b>7. Gancho tecnológico (1:00–1:10)</b><span>Ing. Ariel conecta pasado y presente</span></div></div>
+      <div class="story-card"><img src="img/img10.jpeg" alt="Escena 8"><div class="info"><b>8. Reconstrucción actual (1:10–1:20)</b><span>Sensores y dron en terreno</span></div></div>
+      <div class="story-card"><img src="img/img9.jpeg" alt="Escena 9"><div class="info"><b>9. Procesamiento de datos (1:20–1:30)</b><span>Mapa de probabilidad de agua</span></div></div>
+      <div class="story-card"><img src="img/img10.jpeg" alt="Escena 10"><div class="info"><b>10. Contraste pasado/presente (1:30–1:40)</b><span>Split screen: 1933 vs. alerta moderna</span></div></div>
+      <div class="story-card"><img src="img/img11.jpeg" alt="Escena 11"><div class="info"><b>11. Aplicación del sistema(1:40–1:50)</b><span>Se muestra un sistema que comprueba con datos</span></div></div>
+      <div class="story-card"><img src="img/img12.jpeg" alt="Escena 12"><div class="info"><b>12. Cierre reflexivo (1:50–2:00)</b><span>Cierre reflexivo sobre el pasado y la tecnologia actual</span></div></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <h2><span class="num">06 — Entrega</span>Video Final</h2>
+    
+    <div class="video-btn-wrap">
+      <a class="video-btn" href="https://youtu.be/xDjjQXeAXH0" target="_blank" rel="noopener">▶ Ver Video en YouTube</a>
+    </div>
+  </section>
+
+  <section id="ia">
+    <h2><span class="num">07 — Proceso</span>Evidencia de Uso y Corrección de IA</h2>
+    <p class="lead">Cada tarjeta muestra el mismo camino: qué se le pidió a la IA, qué salió mal y cómo se corrigió. Columna izquierda = problema, columna derecha = solución.</p>
+
+    <div class="ia-card">
+      <div class="ia-head"><span class="ia-num">1</span><h3>Rasgo facial anacrónico (bigote)</h3><span class="tag">Visual · Veo 3</span></div>
+      <div class="ia-pipe">
+        <div class="ia-step antes">
+          <span class="step-label">😕 Antes</span>
+          <span class="prompt">"...mustache, khaki uniform..."</span>
+          <p>La IA dibujó a los soldados bolivianos con bigote grueso. Al comparar con fotos históricas reales de la Guerra del Chaco, ese rasgo no correspondía a la época.</p>
+        </div>
+        <div class="ia-arrow">→</div>
+        <div class="ia-step despues">
+          <span class="step-label">✅ Después</span>
+          <span class="prompt">"clean-shaven face, no mustache"</span>
+          <p>Se agregó esta frase al prompt para forzar el rostro correcto en todas las generaciones siguientes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ia-card">
+      <div class="ia-head"><span class="ia-num">2</span><h3>Color incorrecto del uniforme paraguayo</h3><span class="tag">Visual · Veo 3</span></div>
+      <div class="ia-pipe">
+        <div class="ia-step antes">
+          <span class="step-label">😕 Antes</span>
+          <span class="prompt">"khaki-olive uniforms"</span>
+          <p>El uniforme paraguayo salió casi igual al boliviano: en una escena de combate no se distinguía quién era quién.</p>
+        </div>
+        <div class="ia-arrow">→</div>
+        <div class="ia-step despues">
+          <span class="step-label">✅ Después</span>
+          <span class="prompt">"dark green uniform, green beret-style cap"</span>
+          <p>Se investigó una referencia histórica real (un afiche de la época) y se corrigió el color: verde oscuro con boina, no caqui.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ia-card">
+      <div class="ia-head"><span class="ia-num">3</span><h3>Los personajes no hablaban</h3><span class="tag">Visual · Veo 3</span></div>
+      <div class="ia-pipe">
+        <div class="ia-step antes">
+          <span class="step-label">😕 Antes</span>
+          <span class="prompt">"battlefield near a deep well, soldiers defending position..."</span>
+          <p>Los clips salían completamente mudos, sin diálogo, lo que quitaba toda la tensión dramática de la escena.</p>
+        </div>
+        <div class="ia-arrow">→</div>
+        <div class="ia-step despues">
+          <span class="step-label">✅ Después</span>
+          <span class="prompt">soldier shouting "¡No cedan el pozo!"</span>
+          <p>Se descubrió que Veo 3 sí sincroniza voz y labios si el diálogo va escrito en español, entre comillas, dentro del prompt en inglés.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ia-card">
+      <div class="ia-head"><span class="ia-num">4</span><h3>Un solo personaje hablando todo el segmento</h3><span class="tag">Visual · Veo 3</span></div>
+      <div class="ia-pipe">
+        <div class="ia-step antes">
+          <span class="step-label">😕 Antes</span>
+          <span class="prompt">"engineer standing in an office, looking at camera..."</span>
+          <p>La parte tecnológica se sentía como un monólogo largo y aburrido; nunca se veía el sistema (sensores, datos) funcionando de verdad.</p>
+        </div>
+        <div class="ia-arrow">→</div>
+        <div class="ia-step despues">
+          <span class="step-label">✅ Después</span>
+          <span class="prompt">"drone flying overhead, off-screen narrator voice-over..."</span>
+          <p>Se cambió a estilo documental: el ingeniero solo abre y cierra la escena, y en el medio se ve el sistema en acción con voz en off.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ia-card">
+      <div class="ia-head"><span class="ia-num">5</span><h3>No alcanzaba el tiempo para explicar la solución</h3><span class="tag">Guion</span></div>
+      <div class="ia-pipe">
+        <div class="ia-step antes">
+          <span class="step-label">😕 Antes</span>
+          <span class="prompt">Parte tecnológica: solo 25 s (1:25–1:50)</span>
+          <p>Al generar los clips reales, 25 segundos no alcanzaban para mostrar con claridad cómo funciona el sistema propuesto.</p>
+        </div>
+        <div class="ia-arrow">→</div>
+        <div class="ia-step despues">
+          <span class="step-label">✅ Después</span>
+          <span class="prompt">Parte tecnológica ampliada a 50 s (1:00–1:50)</span>
+          <p>Se comprimieron dos pares de escenas del relato original (de 8 a 6 escenas) para liberar tiempo, sin perder ninguna etapa del Camino del Héroe.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ia-card">
+      <div class="ia-head"><span class="ia-num">6</span><h3>La voz sonaba autoritaria, no melancólica</h3><span class="tag">Audio · ElevenLabs / Gemini</span></div>
+      <div class="ia-pipe">
+        <div class="ia-step antes">
+          <span class="step-label">😕 Antes</span>
+          <span class="prompt">"...terminó siendo la fosa donde nos enterraron."</span>
+          <p>La voz elegida (Marcus, tono barítono) sonaba firme y autoritaria, cuando el cierre del relato pedía tristeza y quiebre emocional.</p>
+        </div>
+        <div class="ia-arrow">→</div>
+        <div class="ia-step despues">
+          <span class="step-label">✅ Después</span>
+          <span class="prompt">"[whispering] ...terminó siendo la fosa..."</span>
+          <p>Gemini sugirió etiquetas de audio: <code>[whispering]</code> baja el volumen a un tono íntimo, y <code>[sad]</code> quiebra la voz hacia el lamento.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ia-card">
+      <div class="ia-head"><span class="ia-num">7</span><h3>El texto no cabía en 4 segundos de audio</h3><span class="tag">Audio · ElevenLabs / Gemini</span></div>
+      <div class="ia-pipe">
+        <div class="ia-step antes">
+          <span class="step-label">😕 Antes</span>
+          <span class="prompt">Párrafo introductorio completo</span>
+          <p>El motor de voz solo procesa entre 8 y 10 palabras en 4 segundos manteniendo un ritmo natural; el texto original era demasiado largo.</p>
+        </div>
+        <div class="ia-arrow">→</div>
+        <div class="ia-step despues">
+          <span class="step-label">✅ Después</span>
+          <span class="prompt">"[dry cough] 1933. Aquí en el Chaco, la peor guerra es la sed."</span>
+          <p>Se recortó el texto a su esencia cruda y se dejó una sola etiqueta rápida para no exceder el tiempo de renderizado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="conclusiones">
+    <h2><span class="num">08 — Cierre</span>Conclusiones</h2>
+    <p>Este proyecto permitió aplicar una mirada de Ingeniería de Sistemas a una obra literaria: identificar actores, procesos, entradas y salidas dentro de una tragedia ocurrida hace más de 90 años. El problema de fondo del relato —decidir sin evidencia— sigue vigente hoy, y la Ingeniería de Sistemas ofrece herramientas concretas (sensores, datos satelitales, modelos de predicción) para transformar la incertidumbre en decisiones informadas. El proceso con IA fue iterativo: cada error identificado exigió una corrección específica y documentada, reforzando que su uso requiere revisión crítica constante y no aceptación pasiva.</p>
+  </section>
+
+</div>
+
+<footer id="creditos">
+  <p class="autor">EL POZO</p>
+  <p>Relato original de Augusto Céspedes · Guion, dirección y producción: <strong>Gary Ariel Arteaga Gabriel</strong></p>
+  <p>Mención Ingeniería de Sistemas · Universidad Mayor de San Andrés · Taller de Proyectos, 2026</p>
+  <p>IA: Gemini, Claude, Veo 3 · Voz: ElevenLabs · Edición: InShot</p>
+</footer>
+
+</body>
+</html>
